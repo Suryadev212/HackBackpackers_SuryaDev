@@ -1,9 +1,26 @@
 # Date and time functions
 # 1. CurrentTimestamp : In DataStage Returns a time stamp that gives the date and time that the job runs.
+# ANSWER:
+
 CurrentTimestamp() => currentUTC()
 
 # 2. DateFromDaysSince2 : Returns a date object by adding an integer to a baseline date. 
 # The integer can be negative to return a date that is earlier than the baseline date.
+# ANSWER:
 
 DateFromDaysSince2(1,"2022-08-18") => @formatDateTime(adddays((2022-08-18),1),'yyyy-MM-dd')
 
+# 3. MinutesFromTime : Returns the minutes portion of a time.
+# ANSWER: IN ADF, HERE first we add a default date with the string value of "HH:MM:SS" then we convert it into the timestemp and extract minutes fron it
+
+MinutesFromTime("22:30:52") => minute(toTimestamp(concat('1900-01-01','22:30:52')))
+
+# 3. MinutesFromTime : Returns the minutes portion of a time.
+# ANSWER: IN ADF, HERE first we add a default date with the string value of "HH:MM:SS" then we convert it into the timestemp and extract minutes fron it
+
+MinutesFromTime("22:30:52") => minute(toTimestamp(concat('1900-01-01','22:30:52')))
+
+# 4. TimetFromTimestamp : Returns the minutes portion of a time.
+# ANSWER: IN ADF, HERE first we add a default date with the string value of "HH:MM:SS" then we convert it into the timestemp and extract minutes fron it
+
+MinutesFromTime("22:30:52") => minute(toTimestamp(concat('1900-01-01','22:30:52')))
