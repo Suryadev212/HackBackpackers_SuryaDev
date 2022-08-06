@@ -1,0 +1,9 @@
+# Date and time functions
+# 1. CurrentTimestamp : In DataStage Returns a time stamp that gives the date and time that the job runs.
+CurrentTimestamp() => currentUTC()
+
+# 2. DateFromDaysSince2 : Returns a date object by adding an integer to a baseline date. 
+# The integer can be negative to return a date that is earlier than the baseline date.
+
+DateFromDaysSince2(1,"2022-08-18") => @formatDateTime(adddays((2022-08-18),1),'yyyy-MM-dd')
+
