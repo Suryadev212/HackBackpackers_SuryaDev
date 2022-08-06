@@ -3,7 +3,12 @@
 
 --/*************************************************/
 
---Declare @SQL_Sting as varchar(max) = 'Surya ( from ) (21313312321) (21313312321) '
+/*** Creating  Tables ***/
+
+DROP TABLE if exists SalesOrderDetail, Product_NAME;
+
+CREATE TABLE SalesOrderDetail (ID  int identity,ProductID int , SalesAmount int) 
+CREATE TABLE Product_NAME (ID  int identity,ProductID int , Name Varchar(200)) 
 
 
 DROP TABLE IF EXISTS #SQL_Sting_brack_location;
@@ -21,23 +26,27 @@ FROM
     	    ProductID
     	  , Unit_Sold
     
-    FROM [Sales].[SalesOrderDetail]
+    FROM SalesOrderDetail
     ) T,
     (
     Select 
     	   ProductID	
 		  , Name
-    FROM [Production].[Product]
+    FROM Product_NAME
     ) S
 Where T.ProductID = S.ProductID'
+
+--= 'Select ProductID	, Name FROM Product_NAME '
 
 Declare @SQL_Sub_Sting as varchar(max) 
 Declare @SQL_Sting_len as int = Len(@SQL_Sting)
 Declare @SQL_Sting_Open_brack_loc as int = 0
 
+/*** checking either it has sub-queries or not ***/
 
+IF CHARINDEX('(', @SQL_Sub_Sting)  <> 0
 
---Select SUBSTRING(@SQL_Sting, (CHARINDEX(')', @SQL_Sting) +1) , Len(@SQL_Sting) )
+BEGIN
 
 /****** FIND ALL THE OPEN BRACKETS IN THE SQL STATEMENT ******/
 
@@ -59,12 +68,7 @@ BEGIN
 END
 
 
-/****** FIND ALL THE OPEN BRACKETS IN THE SQL STATEMENT ******/
-
-
---DROP TABLE IF EXISTS #SQL_Sting_brack_location1;
---Create table  #SQL_Sting_brack_location1 (Bracketloc int identity ,Open_Bracket_Location int, Close_Bracket_Location int)
-
+/****** FIND ALL THE CLOSED BRACKETS IN THE SQL STATEMENT ******/
 
 
 Declare @SQL_Sting_Closed_brack_loc as varchar(max)
@@ -92,6 +96,52 @@ BEGIN
 	SET @SQL_Sting_Closed_brack_loc_old = @SQL_Sting_Closed_brack_loc + @SQL_Sting_Closed_brack_loc_old
 
 	--print(@Counter_Closed)
+END
+
+Delete from #SQL_Sting_brack_location where Open_Bracket_Location = 0
+
+Select * from #SQL_Sting_brack_location
+
+
+END
+
+/****** Tables where Dont have any subQuery ******/
+
+
+IF CHARINDEX('(', @SQL_Sting) = 0
+
+
+Declare @SQL_Sting_TRIM as varchar(max) = TRIM('Select ProductID , Name FROM Product_NAME ')
+
+Declare @tableName as varchar(max) =  TRIM(SUBSTRING(@SQL_Sting_TRIM, CHARINDEX('FROM', @SQL_Sting_TRIM)+ LEN('FROM'), LEN(@SQL_Sting_TRIM))) 
+Print(@tableName)
+
+Declare @QueryString as varchar(max) = 'Select * from INFORMATION_SCHEMA.COLUMNS where TABLE_NAME = ' + '''' + @tableName  + '''' 
+
+--exec (@QueryString)
+
+
+Create table #all_words_of_Query (ID int identity, value varchar(200))
+Declare @LAN_SQL_Sting_TRIM as int = LEN(@SQL_Sting_TRIM)
+Declare @@SQL_Sub_StingTRIM as varchar(max)
+Declare @SQL_Sting_space_loc as varchar(max)
+
+
+DECLARE @Counter_Space INT 
+SET @Counter_Space=0
+WHILE ( @Counter_Space <= @LAN_SQL_Sting_TRIM)
+BEGIN
+	SET @@SQL_Sub_StingTRIM = (SELECT SUBSTRING(@SQL_Sting_TRIM,@Counter_Space, @LAN_SQL_Sting_TRIM))
+
+	--print(@SQL_Sub_Sting)
+    Set @SQL_Sting_space_loc = CHARINDEX(' ', @SQL_Sting_TRIM) 
+	Insert into #all_words_of_Query (value) Values (@SQL_Sting_space_loc)
+
+	--Print(@@SQL_Sting_space_loc)
+	set @Counter_Space = (SELECT CASE WHEN @SQL_Sting_space_loc = 0 then @Counter_Space + @LAN_SQL_Sting_TRIM +1
+							   ELSE @Counter_Space + @SQL_Sting_space_loc +1 END )
+
+	--print(@Counter_Open)
 END
 
 
