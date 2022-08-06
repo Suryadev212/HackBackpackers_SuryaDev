@@ -2,25 +2,72 @@
 # 1. CurrentTimestamp : In DataStage Returns a time stamp that gives the date and time that the job runs.
 # ANSWER:
 
+# DataStage Function => ADF Function
 CurrentTimestamp() => currentUTC()
 
 # 2. DateFromDaysSince2 : Returns a date object by adding an integer to a baseline date. 
 # The integer can be negative to return a date that is earlier than the baseline date.
 # ANSWER:
 
+# DataStage Function => ADF Function
 DateFromDaysSince2(1,"2022-08-18") => @formatDateTime(adddays((2022-08-18),1),'yyyy-MM-dd')
 
 # 3. MinutesFromTime : Returns the minutes portion of a time.
 # ANSWER: IN ADF, HERE first we add a default date with the string value of "HH:MM:SS" then we convert it into the timestemp and extract minutes fron it
 
+# DataStage Function => ADF Function
 MinutesFromTime("22:30:52") => minute(toTimestamp(concat('1900-01-01','22:30:52')))
 
 # 3. MinutesFromTime : Returns the minutes portion of a time.
 # ANSWER: IN ADF, HERE first we add a default date with the string value of "HH:MM:SS" then we convert it into the timestemp and extract minutes fron it
 
+# DataStage Function => ADF Function
 MinutesFromTime("22:30:52") => minute(toTimestamp(concat('1900-01-01','22:30:52')))
 
-# 4. TimetFromTimestamp : Returns the minutes portion of a time.
-# ANSWER: IN ADF, HERE first we add a default date with the string value of "HH:MM:SS" then we convert it into the timestemp and extract minutes fron it
+# 4. TimetFromTimestamp : Returns a UNIX time_t value from the given time stamp.
+# ANSWER: 
 
-MinutesFromTime("22:30:52") => minute(toTimestamp(concat('1900-01-01','22:30:52')))
+# DataStage Function => ADF Function
+TimestampFromTimet("2009–02–13 23:31:30") => toLong( currentUTC() - toTimestamp('1970-01-01 00:00:00.000', 'yyyy-MM-dd HH:mm:ss.SSS') ) * 1000l
+
+
+################################################
+#Logical functions 
+
+# 5. BitAnd ; Returns the bitwise AND of the two integer arguments.
+# ANSWER: 
+
+# DataStage Function => ADF Function
+BitAnd(352,400) => bitwiseAnd(352,400)
+
+
+# 6. BitCompress ; Returns the integer made from the string argument, which contains a binary representation of "1"s and "0"s.
+# ANSWER: 
+
+# DataStage Function => ADF Function
+BitCompress("0101100000") => toBinary('0101100000')
+
+################################################
+#Mathematical functions
+
+# 7. Abs : Returns the absolute value of any numeric expression. The absolute value of an expression is its unsigned magnitude.
+# ANSWER: 
+
+# DataStage Function => ADF Function
+Abs(12-34) => Abs(12-34)
+
+# 8. Floor : Calculates the largest integer value less than or equal to the given decimal value.
+# ANSWER: 
+
+Floor(203.25) => Floor(203.25)
+
+# 9. Random : Returns a random number between 0 and 232-1.
+# ANSWER: 
+
+Random(203.25) => random(203.25)
+
+
+################################################
+#Null handling functions
+
+
