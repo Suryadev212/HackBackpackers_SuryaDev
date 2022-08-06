@@ -113,11 +113,11 @@ floor_()
 # ANSWER: 
 
 # DataStage Function => ADF Function
-Random(203.25) => random(203.25)
+Random() => random()
 
 # python Code
 def random_() :
-    y = random(203.25)
+    y = random()
     print(y)
 random_()
 
@@ -125,3 +125,55 @@ random_()
 #Null handling functions
 
 
+# 10. IsNotNull : Returns true when an expression does not evaluate to the null value.
+# ANSWER: 
+
+# DataStage Function => ADF Function
+IsNotNull('KUMAAR') => CASE('KUMAAR' == NULL, FALSE, TRUE)
+
+# python Code
+def IsNotNull_() :
+    y = CASE('KUMAAR' == NULL, FALSE, TRUE)
+    print(y)
+IsNotNull_()
+
+# 11. NullToValue : Returns the specified value if the input column is null, otherwise returns the input column value.
+# ANSWER: 
+
+# DataStage Function => ADF Function
+IsNotNull(Name) => iif(isNull(Name), 'Unknown', Name)
+
+# python Code
+def IsNotNull_() :
+    y = iif(isNull(Name), 'Unknown', Name)
+    print(y)
+IsNotNull_()
+
+################################################
+#Number functions
+
+
+# 12. AsDouble : Treat the given number as a double.
+# ANSWER: 
+
+# DataStage Function => ADF Function
+AsDouble(56/4.32) => toDouble(56/4.32)
+
+# python Code
+def AsDouble_() :
+    y = toDouble(56/4.32)
+    print(y)
+AsDouble_()
+
+# 13. MantissaFromDecimal :Returns the mantissa from the given decimal.
+# ANSWER: 
+
+# DataStage Function => ADF Function
+MantissaFromDecimal(56/4.32) => toDouble(56/4.32)
+
+# python Code
+def AsDouble_() :
+    y = toDouble(56/4.32)
+    
+    print(y)
+AsDouble_()
