@@ -1,1 +1,52 @@
 
+
+DROP TABLE IF EXISTS #SQL_Sting_brack_location;
+Create table  #SQL_Sting_brack_location (Bracketloc int identity ,Open_Bracket_Location int, Close_Bracket_Location int)
+
+
+Declare @SQL_Sting as varchar(max) 
+=
+'SELECT 
+ S.Name
+,T.Unit_Sold
+FROM 
+    (
+    Select 
+    	    ProductID
+    	  , Unit_Sold
+    
+    FROM [Sales].[SalesOrderDetail]
+    ) T,
+    (
+    Select 
+    	   ProductID	
+		  , Name
+    FROM [Production].[Product]
+    ) S
+Where T.ProductID = S.ProductID'
+
+
+
+Declare @SQL_Sub_Sting as varchar(max) 
+Declare @SQL_Sting_len as int = Len(@SQL_Sting)
+Declare @SQL_Sting_Open_brack_loc as int = 0
+
+
+DECLARE @Counter INT 
+SET @Counter=0
+WHILE ( @Counter <= @SQL_Sting_Len)
+BEGIN
+	SET @SQL_Sub_Sting = (SELECT SUBSTRING(@SQL_Sting,@Counter, @SQL_Sting_len))
+
+	print(@SQL_Sub_Sting)
+    Set @SQL_Sting_Open_brack_loc = CHARINDEX('(', @SQL_Sub_Sting) 
+	Insert into #SQL_Sting_brack_location (Open_Bracket_Location) Values (@SQL_Sting_Open_brack_loc)
+
+	Print(@SQL_Sting_Open_brack_loc)
+	set @Counter = (SELECT CASE WHEN @SQL_Sting_Open_brack_loc = 0 then @Counter + @SQL_Sting_Len +1
+							   ELSE @Counter + @SQL_Sting_Open_brack_loc +1 END )
+
+	print(@Counter)
+END
+
+Select * from #SQL_Sting_brack_location
