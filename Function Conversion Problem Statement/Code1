@@ -177,3 +177,50 @@ def AsDouble_() :
     
     print(y)
 AsDouble_()
+
+
+################################################
+#Raw functions
+
+# 13. RawLength :Returns the length of a raw string.
+# ANSWER: 
+
+# DataStage Function => ADF Function
+RawLength('abc') => length('abc')
+
+# python Code
+def RawLength_() :
+    y = length('abc')
+    
+    print(y)
+RawLength_()
+
+################################################
+#String functions
+
+
+# 14. RawLength :Returns the length of a raw string.
+# ANSWER: 
+
+# DataStage Function => ADF Function
+Change('QWWEbbb',"bbb","ZZZ") => replace('QWWEbbb',"bbb","ZZZ")
+
+# python Code
+def RawLength_() :
+    y = replace('QWWEbbb',"bbb","ZZZ")
+    print(y)
+RawLength_()
+
+
+# 15. Str :Repeats a string the specified number of times.
+# ANSWER: 
+
+# DataStage Function => ADF Function
+Str("SURYA",5) => tostring("SURYA")
+
+# python Code
+def RawLength_() :
+    y = tostring("SURYA")
+    x = y*5
+    print(x)
+RawLength_()
